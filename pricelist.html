@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Price List - Magical Moment</title>
+    <style>
+        :root { --gold: #d4af37; --dark: #000; --grey: #1a1a1a; }
+        body { background: var(--dark); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; text-align: center; }
+        
+        /* Header Atas Khusus Tombol Kembali */
+        .header-nav { 
+            position: sticky; top: 0; background: rgba(0,0,0,0.9); 
+            padding: 15px; border-bottom: 1px solid #333; z-index: 1000;
+            display: flex; justify-content: flex-start;
+        }
+
+        .btn-top-back { 
+            color: var(--gold); text-decoration: none; font-weight: bold; 
+            font-size: 13px; border: 1.5px solid var(--gold); 
+            padding: 8px 18px; border-radius: 25px; transition: 0.3s;
+        }
+        .btn-top-back:active { background: var(--gold); color: #000; }
+
+        h2 { margin-top: 30px; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; font-size: 1.4em; }
+
+        /* Menu Tombol Utama */
+        .menu-container { max-width: 400px; margin: 30px auto; display: flex; flex-direction: column; gap: 12px; padding: 0 20px; }
+        .btn-paket { 
+            background: var(--grey); color: #fff; border: 1px solid #333; 
+            padding: 18px; border-radius: 12px; font-weight: bold; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 14px;
+        }
+        .btn-paket:active { border-color: var(--gold); background: #222; }
+
+        /* MODAL AREA */
+        .modal { 
+            display: none; position: fixed; z-index: 2000; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); overflow-y: auto; padding-top: 20px;
+        }
+
+        .modal-content { margin: auto; display: block; width: 92%; max-width: 450px; border-radius: 10px; border: 1px solid var(--gold); }
+
+        .modal-action { margin: 20px auto; width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 10px; padding-bottom: 40px; }
+        
+        .btn-wa-modal { background: #25D366; color: white; text-decoration: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 15px; }
+        .btn-close-modal { background: #cc0000; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="dashboard.html" class="btn-top-back">← KEMBALI KE MENU</a>
+    </div>
+
+    <h2>PILIH PAKET</h2>
+
+    <div class="menu-container">
+        <button class="btn-paket" onclick="bukaModal('PRICE_WEDDING.jpg', 'Wedding')">💍 Wedding Package</button>
+        <button class="btn-paket" onclick="bukaModal('PRICE_PREWEDDING.jpg', 'Pre-Wedding')">📸 Pre-Wedding Package</button>
+        <button class="btn-paket" onclick="bukaModal('PRICE_ENGAGEMENT.jpg', 'Engagement')">🤝 Engagement Package</button>
+        <button class="btn-paket" onclick="bukaModal('PRICE_GRADUATION.jpg', 'Graduation')">🎓 Graduation Package</button>
+        <button class="btn-paket" onclick="bukaModal('PRICE_ULTAH.jpg', 'Ultah/Birthday')">🎂 Birthday Package</button>
+        <button class="btn-paket" onclick="bukaModal('PRICE_HUNTING.jpg', 'Hunting')">🌲 Hunting Package</button>
+    </div>
+
+    <div id="myModal" class="modal">
+        <img class="modal-content" id="imgArea">
+        
+        <div class="modal-action">
+            <a id="waLink" href="#" class="btn-wa-modal" target="_blank">💬 CHAT ADMIN SEKARANG</a>
+            <button class="btn-close-modal" onclick="tutupModal()">❌ TUTUP GAMBAR</button>
+        </div>
+    </div>
+
+    <script>
+        function bukaModal(namaGambar, namaPaket) {
+            const modal = document.getElementById("myModal");
+            const img = document.getElementById("imgArea");
+            const wa = document.getElementById("waLink");
+
+            modal.style.display = "block";
+            img.src = namaGambar;
+            wa.href = "https://wa.me/6282117155737?text=Halo Admin, saya mau tanya detail paket " + namaPaket;
+        }
+
+        function tutupModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

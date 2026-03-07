@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Klien - Magical Moment</title>
+    <style>
+        :root { --gold: #d4af37; --dark: #000; --white: #fff; }
+
+        body { 
+            background: var(--dark); 
+            color: var(--white); 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .login-card {
+            text-align: center;
+            width: 85%;
+            max-width: 350px;
+            padding: 30px;
+            border: 1px solid #222;
+            border-radius: 25px;
+            background: #0a0a0a;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+        }
+
+        .login-card img {
+            width: 140px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 5px rgba(214, 175, 55, 0.2));
+        }
+
+        h2 {
+            font-size: 1.1em;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* Input Nama - Dibuat Minimalis Mewah */
+        input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1.5px solid #333;
+            background: #111;
+            color: #fff;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--gold);
+            background: #181818;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Tombol Masuk */
+        button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        button:active {
+            transform: scale(0.96);
+            background: #b8952e;
+        }
+
+        .footer {
+            margin-top: 35px;
+            font-size: 10px;
+            color: #444;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <img src="LOGO.jpg" alt="Logo">
+        
+        <h2>HALO KAKA🥰</h2>
+
+        <input type="text" id="namaKlien" placeholder="Tulis Nama Lengkap Kakak">
+        
+        <button onclick="masukKeDashboard()">✨KLIK SELANJUTNYA ✨</button>
+
+        <div class="footer">MAGICAL MOMENT © 2026</div>
+    </div>
+
+    <script>
+        function masukKeDashboard() {
+            const nama = document.getElementById('namaKlien').value;
+
+            if (nama.trim() !== "") {
+                // Simpan nama ke memori sementara browser
+                sessionStorage.setItem('namaUser', nama);
+                
+                // Pindah ke halaman menu (dashboard)
+                window.location.href = 'dashboard.html';
+            } else {
+                alert("Mohon isi nama dulu ya Kak supaya kami bisa menyapa Kakak 😊");
+            }
+        }
+
+        // Biar bisa tekan 'Enter' langsung masuk
+        document.getElementById("namaKlien").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                masukKeDashboard();
+            }
+        });
+    </script>
+
+</body>
+</html>

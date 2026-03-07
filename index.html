@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Booking Magical Moment</title>
+    <style>
+        :root { --gold: #d4af37; --dark: #000000; --white: #ffffff; }
+        
+        html, body { 
+            margin: 0; padding: 0; width: 100%; 
+            overflow-x: hidden; background: var(--dark);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        /* Tombol Kembali Floating */
+        .btn-back {
+            position: absolute; top: 20px; left: 15px;
+            color: var(--gold); text-decoration: none;
+            font-weight: bold; font-size: 14px; z-index: 100;
+            background: rgba(0,0,0,0.5); padding: 5px 12px;
+            border-radius: 20px; border: 1px solid var(--gold);
+        }
+
+        .header { text-align: center; padding: 60px 20px 60px 20px; background: #000; }
+        .header img { width: 85%; max-width: 300px; height: auto; display: block; margin: 0 auto; }
+        .tagline { color: var(--gold); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-top: 15px; font-weight: bold; text-align: center; }
+
+        .container { 
+            max-width: 480px; margin: -30px 15px 50px 15px; 
+            background: var(--white); padding: 25px; 
+            border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
+            position: relative; color: #333;
+        }
+
+        @media (min-width: 600px) { .container { margin: -30px auto 50px auto; padding: 40px; } }
+
+        h2 { text-align: center; font-size: 1.4em; text-transform: uppercase; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 25px; }
+        h3 { font-size: 1em; border-left: 4px solid var(--gold); padding-left: 10px; text-transform: uppercase; margin-top: 30px; }
+        
+        label { display: block; font-size: 11px; font-weight: bold; margin-top: 18px; color: #777; text-transform: uppercase; }
+        input { width: 100%; padding: 14px; margin-top: 6px; border: 1px solid #ddd; border-radius: 12px; box-sizing: border-box; font-size: 16px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
+        
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn-opt { padding: 14px; border: 1.5px solid var(--gold); background: #fff; border-radius: 12px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.8em; color: var(--dark); }
+        .btn-opt.active { background: var(--gold); color: white; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+
+        .info-box { background: #fffdf0; border: 1px solid #faeebc; padding: 20px; border-radius: 15px; margin-top: 25px; font-size: 13px; }
+        .payment { background: #fff; border: 2px dashed var(--gold); padding: 15px; text-align: center; margin-top: 12px; font-weight: bold; font-size: 1.1em; border-radius: 10px; }
+        
+        .note { font-size: 13px; text-align: center; margin: 25px 0; padding: 15px; background: #f4fff7; border-radius: 12px; font-style: italic; border-left: 5px solid #25D366; color: #2e7d32; }
+
+        .btn-wa { background: #25D366; color: white; border: none; padding: 20px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 17px; cursor: pointer; box-shadow: 0 6px 20px rgba(37,211,102,0.4); margin-top: 10px; transition: 0.3s; }
+        .btn-wa:hover { background: #1eb954; transform: translateY(-2px); }
+        
+        .footer { text-align: center; font-size: 12px; color: #999; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <a href="dashboard.html" class="btn-back">← Kembali</a>
+
+    <div class="header">
+        <img src="LOGO.jpg" alt="Logo">
+        <div class="tagline">✨ Capture Your Moment ✨</div>
+    </div>
+
+    <div class="container">
+        <h2>Booking Form</h2>
+        <p style="text-align: center; font-size: 13px; color: #666; margin-bottom: 25px;">
+            Lengkapi data di bawah ini untuk mengamankan jadwal kamu.
+        </p>
+
+        <h3>1. Data Klien</h3>
+        <label>Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Nama">
+        
+        <label>No. WhatsApp</label>
+        <input type="number" id="wa" placeholder="0821xxxx">
+        
+        <label>Instagram (Opsional)</label>
+        <input type="text" id="ig" placeholder="@username_kamu">
+
+        <h3>2. Detail Projek</h3>
+        <label>Jenis Layanan</label>
+        <div class="service-grid">
+            <button class="btn-opt" onclick="setLayanan(this, 'Pre-Wedding')">Pre-Wedding</button>
+            <button class="btn-opt" onclick="setLayanan(this, 'Wedding')">Wedding</button>
+            <button class="btn-opt" onclick="setLayanan(this, 'Engagement')">Engagement</button>
+            <button class="btn-opt" onclick="setLayanan(this, 'Graduation')">Graduation</button>
+            <button class="btn-opt" onclick="setLayanan(this, 'Birthday')">Birthday</button>
+            <button class="btn-opt" onclick="setLayanan(this, 'Hunting')">Hunting</button>
+        </div>
+
+        <label>Tanggal & Jam Pelaksanaan</label>
+        <div style="display: flex; gap: 10px;">
+            <input type="date" id="tgl" style="flex: 2;">
+            <input type="time" id="jam" style="flex: 1;">
+        </div>
+
+        <label>Lokasi / Alamat</label>
+        <input type="text" id="lokasi" placeholder="Alamat lengkap lokasi">
+
+        <div class="info-box">
+            <strong>📌 Syarat & Ketentuan:</strong>
+            <ul style="margin: 8px 0; padding-left: 20px; line-height: 1.6;">
+                <li>DP Minimal 30% untuk mengunci jadwal.</li>
+                <li>Jadwal dianggap sah setelah konfirmasi DP.</li>
+            </ul>
+            <div class="payment">
+                DANA: 0821-1715-5737<br>
+                BCA: 7741483614<br>
+                <small>a/n Riki Setiadi</small>
+            </div>
+        </div>
+
+        <div class="note">
+            "Moodboard & Pose Guide akan segera dikirimkan setelah konfirmasi pembayaran."
+        </div>
+
+        <button class="btn-wa" onclick="kirimFormulir()">Kirim & Amankan Jadwal! 🚀</button>
+
+        <div class="footer">
+            “Momen kamu nggak akan terulang, <br>biarkan kami yang mengabadikannya secara Magical.”
+        </div>
+    </div>
+
+    <script>
+        let layananTerpilih = "";
+
+        // OTOMATIS AMBIL NAMA DARI LOGIN
+        window.onload = function() {
+            const namaTersimpan = sessionStorage.getItem('namaUser');
+            if(namaTersimpan) {
+                document.getElementById('nama').value = namaTersimpan;
+            }
+        }
+
+        function setLayanan(el, val) {
+            document.querySelectorAll('.btn-opt').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            layananTerpilih = val;
+        }
+
+        function kirimFormulir() {
+            const nama = document.getElementById('nama').value;
+            const waKlien = document.getElementById('wa').value;
+            const tanggal = document.getElementById('tgl').value;
+            const jam = document.getElementById('jam').value;
+            const lokasi = document.getElementById('lokasi').value;
+            const ig = document.getElementById('ig').value || "-";
+
+            if(!nama || !layananTerpilih || !tanggal) {
+                alert("Mohon isi Nama, Layanan, dan Tanggal ya! 😊");
+                return;
+            }
+
+            const pesan = `*BOOKING MAGICAL MOMENT*%0A%0A` +
+                          `*1. DATA KLIEN*%0A` +
+                          `• Nama: ${nama}%0A` +
+                          `• WA: ${waKlien}%0A` +
+                          `• IG: ${ig}%0A%0A` +
+                          `*2. DETAIL PROJEK*%0A` +
+                          `• Layanan: *${layananTerpilih}*%0A` +
+                          `• Tanggal: ${tanggal}%0A` +
+                          `• Jam: ${jam || '-'} WIB%0A` +
+                          `• Lokasi: ${lokasi || '-'}%0A%0A` +
+                          `---------------------------%0A` +
+                          `_“Momen kamu nggak akan terulang, biarkan kami yang mengabadikannya secara Magical.”_`;
+            
+            const nomorTujuan = "6282117155737";
+            window.open(`https://wa.me/${nomorTujuan}?text=${pesan}`, '_blank');
+        }
+    </script>
+</body>
+</html>
