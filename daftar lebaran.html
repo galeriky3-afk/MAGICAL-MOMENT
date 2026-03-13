@@ -20,7 +20,7 @@
 
 <div class="card">
     <div class="logo-box">
-        <img src="LOGO.JPG" class="logo" alt="Logo">
+        <img src="LOGO.jpg" class="logo" alt="Logo">
     </div>
 
     <div id="view-pilih">
@@ -53,7 +53,6 @@
 
     let paketFix = "";
     let antreanFix = 1;
-    // PASTIIN URL INI BENER (CEK HURUF BESAR KECILNYA)
     const urlScript = "https://script.google.com/macros/s/AKfycbxeS4OBdLqoDF4xMNeG5gGUUrTBzIxED-QGW76lizr34rJV2MiJ9VM7fl2mwaufyL3T/exec"; 
 
     async function pilihPaket(p) {
@@ -61,7 +60,9 @@
         document.getElementById('view-pilih').style.display = 'none';
         document.getElementById('view-detail').style.display = 'block';
         document.getElementById('judulPaket').innerText = "PAKET " + p.toUpperCase();
-        document.getElementById('imgPrice').src = (p === 'Cibubut') ? "https://github.com/galeriky3-afk/MAGICAL-MOMENT/blob/80a3e38e47508c1ae0676ac34ea77edf25356db0/CIBUBUT.jpg" : "https://github.com/galeriky3-afk/MAGICAL-MOMENT/blob/cecc7f9ec76925f09d8cdc6656d7148374af1d78/LUAR.jpg";
+        
+        // UDAH DIGANTI KE HURUF KECIL .jpg
+        document.getElementById('imgPrice').src = (p === 'Cibubut') ? "CIBUBUT.jpg" : "LUAR.jpg";
 
         try {
             const r = await fetch(urlScript);
@@ -80,7 +81,7 @@
         d.setMinutes(d.getMinutes() + menit);
         let jamStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
 
-        const noWA = "6285168120645"; // Nomor sudah gue rapihin formatnya
+        const noWA = "6285168120645";
 
         const pesan = `*BOOKING FOTO LEBARAN*%0A` +
                       `*MAGICAL MOMENT*%0A%0A` +
