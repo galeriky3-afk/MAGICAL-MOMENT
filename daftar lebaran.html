@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background-color: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #0a0a0a; border: 1px solid #222; border-radius: 25px; padding: 30px; width: 90%; max-width: 380px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .logo-box { background: #000; padding: 20px; border-radius: 15px; display: inline-block; margin-bottom: 25px; border: 1px solid #111; }
+        .logo { width: 100px; }
+        h2 { color: #d4af37; letter-spacing: 2px; font-size: 18px; margin-bottom: 25px; text-transform: uppercase; }
+        .btn { background: linear-gradient(145deg, #d4af37, #b8860b); color: #000; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; border: none; cursor: pointer; font-size: 14px; text-transform: uppercase; margin-bottom: 12px; }
+        .price-img { width: 100%; border-radius: 15px; border: 1px solid #d4af37; margin: 15px 0; }
+        .antrean-box { background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 20px; }
+        #noAntrean { font-size: 32px; color: #d4af37; font-weight: bold; display: block; }
+        .footer { font-size: 10px; color: #444; margin-top: 30px; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="logo-box">
+        <img src="LOGO.JPG" class="logo" alt="Logo">
+    </div>
+
+    <div id="view-pilih">
+        <h2 id="sapaanUser">HALO KAKA 🥰</h2>
+        <p style="font-size:12px; color:#aaa; margin-bottom: 20px;">Silakan pilih lokasi paket foto:</p>
+        <button class="btn" onclick="pilihPaket('Cibubut')">📍 PAKET DUSUN CIBUBUT</button>
+        <button class="btn" onclick="pilihPaket('Luar Cibubut')">📍 PAKET LUAR CIBUBUT</button>
+        <button onclick="window.history.back()" style="background:none; border:none; color:#d4af37; cursor:pointer; font-size:11px; margin-top:10px;">← Kembali ke Menu Utama</button>
+    </div>
+
+    <div id="view-detail" style="display:none;">
+        <h2 id="judulPaket">DETAIL PAKET</h2>
+        <img id="imgPrice" class="price-img" src="" alt="Price List">
+        
+        <div class="antrean-box">
+            <p style="margin:0; font-size:12px; color:#aaa;">Antrean Anda:</p>
+            <span id="noAntrean">#--</span>
+        </div>
+
+        <button class="btn" onclick="gasWA()">✅ AMBIL ANTREAN SEKARANG</button>
+        <p onclick="location.reload()" style="font-size:11px; color:#d4af37; cursor:pointer; text-decoration:underline; margin-top:15px;">← Ganti Paket</p>
+    </div>
+
+    <div class="footer">MAGICAL MOMENT © 2026</div>
+</div>
+
+<script>
+    const namaKlien = sessionStorage.getItem('namaUser') || "Kaka";
+    document.getElementById('sapaanUser').innerText = "HALO " + namaKlien.toUpperCase() + " 🥰";
+
+    let paketFix = "";
+    let antreanFix = 1;
+    // PASTIIN URL INI BENER (CEK HURUF BESAR KECILNYA)
+    const urlScript = "https://script.google.com/macros/s/AKfycbxeS4OBdLqoDF4xMNeG5gGUUrTBzIxED-QGW76lizr34rJV2MiJ9VM7fl2mwaufyL3T/exec"; 
+
+    async function pilihPaket(p) {
+        paketFix = p;
+        document.getElementById('view-pilih').style.display = 'none';
+        document.getElementById('view-detail').style.display = 'block';
+        document.getElementById('judulPaket').innerText = "PAKET " + p.toUpperCase();
+        document.getElementById('imgPrice').src = (p === 'Cibubut') ? "CIBUBUT.JPG" : "LUAR.JPG";
+
+        try {
+            const r = await fetch(urlScript);
+            const count = await r.text();
+            antreanFix = (isNaN(parseInt(count))) ? 1 : parseInt(count) + 1;
+            document.getElementById('noAntrean').innerText = "#" + antreanFix;
+        } catch(e) { 
+            document.getElementById('noAntrean').innerText = "#1"; 
+        }
+    }
+
+    function gasWA() {
+        let menit = (antreanFix - 1) * 15;
+        let d = new Date(); 
+        d.setHours(8, 30, 0); 
+        d.setMinutes(d.getMinutes() + menit);
+        let jamStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+
+        const noWA = "6285168120645"; // Nomor sudah gue rapihin formatnya
+
+        const pesan = `*BOOKING FOTO LEBARAN*%0A` +
+                      `*MAGICAL MOMENT*%0A%0A` +
+                      `*No. Antrean:* %23${antreanFix}%0A` +
+                      `*Nama:* ${namaKlien}%0A` +
+                      `*Paket:* ${paketFix}%0A` +
+                      `*Estimasi:* Jam ${jamStr} WIB%0A%0A` +
+                      `_Halo ADMIN, saya sudah daftar lewat web. Mohon konfirmasi jadwalnya ya!_`;
+
+        fetch(urlScript, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify({ nama: namaKlien, lokasi: paketFix, jam: jamStr }) 
+        });
+
+        window.open(`https://wa.me/${noWA}?text=${pesan}`, '_blank');
+    }
+</script>
+</body>
+</html>
