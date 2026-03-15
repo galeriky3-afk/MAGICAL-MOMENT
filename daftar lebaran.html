@@ -53,7 +53,8 @@
 
     let paketFix = "";
     let antreanFix = 1;
-    const urlScript = "https://script.google.com/macros/s/AKfycbxSIz2GqwxJa0OX6aB1jBzWSGF9xvUk6iX9u41bhRKxCmW6f9OSqSE0jk1YUDJLNCo/exec; 
+    // URL sudah gue benerin tanda kutipnya
+    const urlScript = "https://script.google.com/macros/s/AKfycbxSIz2GqwxJa0OX6aB1jBzWSGF9xvUk6iX9u41bhRKxCmW6f9OSqSE0jk1YUDJLNCo/exec";
 
     async function pilihPaket(p) {
         paketFix = p;
@@ -61,14 +62,14 @@
         document.getElementById('view-detail').style.display = 'block';
         document.getElementById('judulPaket').innerText = "PAKET " + p.toUpperCase();
         
-        // LINK LANGSUNG DARI GITHUB LO
         const baseImg = "https://raw.githubusercontent.com/galeriky3-afk/MAGICAL-MOMENT/main/";
         document.getElementById('imgPrice').src = (p === 'Cibubut') ? baseImg + "CIBUBUT.jpg" : baseImg + "LUAR.jpg";
 
         try {
             const r = await fetch(urlScript);
             const count = await r.text();
-            antreanFix = (isNaN(parseInt(count))) ? 1 : parseInt(count) + 1;
+            // Script baru lo kan ngirim angka antrean berikutnya, jadi gak perlu +1 lagi di sini
+            antreanFix = (isNaN(parseInt(count))) ? 1 : parseInt(count);
             document.getElementById('noAntrean').innerText = "#" + antreanFix;
         } catch(e) { 
             document.getElementById('noAntrean').innerText = "#1"; 
@@ -76,7 +77,8 @@
     }
 
     function gasWA() {
-        let menit = (antreanFix - 1) * 15;
+        let antreanKe = antreanFix || 1;
+        let menit = (parseInt(antreanKe) - 1) * 15;
         let d = new Date(); 
         d.setHours(8, 30, 0); 
         d.setMinutes(d.getMinutes() + menit);
@@ -86,28 +88,24 @@
 
         const pesan = `*BOOKING FOTO LEBARAN*%0A` +
                       `*MAGICAL MOMENT*%0A%0A` +
-                      `*No. Antrean:* %23${antreanFix}%0A` +
+                      `*No. Antrean:* %23${antreanKe}%0A` +
                       `*Nama:* ${namaKlien}%0A` +
                       `*Paket:* ${paketFix}%0A` +
                       `*Estimasi:* Jam ${jamStr} WIB%0A%0A` +
                       `_Halo ADMIN, saya sudah daftar lewat web. Mohon konfirmasi jadwalnya ya!_`;
 
-fetch(urlScript, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({ 
-            antrean: antreanFix, // Tambahin ini biar nomor antrean masuk ke Sheets
-            nama: namaKlien, 
-            lokasi: paketFix, 
-            jam: jamStr 
-        })
-    });
-        fetch(urlScript, { 
-            method: 'POST', 
-            mode: 'no-cors', 
-            body: JSON.stringify({ nama: namaKlien, lokasi: paketFix, jam: jamStr }) 
+        // Kirim data ke Google Sheets
+        fetch(urlScript, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ 
+                nama: namaKlien, 
+                lokasi: paketFix, 
+                jam: jamStr 
+            })
         });
 
+        // Langsung buka WhatsApp
         window.open(`https://wa.me/${noWA}?text=${pesan}`, '_blank');
     }
 </script>
