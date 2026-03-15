@@ -92,6 +92,16 @@
                       `*Estimasi:* Jam ${jamStr} WIB%0A%0A` +
                       `_Halo ADMIN, saya sudah daftar lewat web. Mohon konfirmasi jadwalnya ya!_`;
 
+fetch(urlScript, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ 
+            antrean: antreanFix, // Tambahin ini biar nomor antrean masuk ke Sheets
+            nama: namaKlien, 
+            lokasi: paketFix, 
+            jam: jamStr 
+        })
+    });
         fetch(urlScript, { 
             method: 'POST', 
             mode: 'no-cors', 
